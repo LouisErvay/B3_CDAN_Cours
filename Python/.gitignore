@@ -1,0 +1,55 @@
+# --- Python ---
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pyd
+*.pdb
+*.egg
+*.egg-info/
+.eggs/
+
+# --- Environnements virtuels ---
+.venv/
+env/
+venv/
+
+# --- Distribution / packaging ---
+build/
+dist/
+*.manifest
+*.spec
+pip-wheel-metadata/
+*.whl
+
+# --- Tests / couverture ---
+.coverage
+coverage.xml
+htmlcov/
+*.pytest_cache/
+.tox/
+.nox/
+
+# --- Logs / temporaires ---
+*.log
+*.tmp
+*.swp
+*~
+.cache/
+.mypy_cache/
+.dmypy.json
+.pyre/
+.pytype/
+
+# --- IDE / éditeurs ---
+.vscode/
+.idea/
+*.iml
+
+# --- OS spécifiques ---
+# macOS
+.DS_Store
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini

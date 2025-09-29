@@ -1,0 +1,14 @@
+@startuml
+start
+
+:Entrer identifiant;
+:Entrer mot de passe;
+
+if (Identifiants valides ?) then (Oui)
+  :Afficher tableau de bord;
+else (Non)
+  :Afficher message d'erreur;
+endif
+
+stop
+@enduml

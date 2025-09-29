@@ -1,0 +1,65 @@
+# --- Compilés / binaires ---
+*.o
+*.obj
+*.so
+*.dll
+*.dylib
+*.exe
+*.out
+*.a
+*.lib
+
+# --- Fichiers de build ---
+/build/
+/bin/
+/lib/
+/dist/
+/CMakeFiles/
+/CMakeCache.txt
+cmake_install.cmake
+Makefile
+*.make
+*.ninja
+.ninja_deps
+.ninja_log
+
+# --- Logs / temporaires ---
+*.log
+*.tmp
+*.swp
+*.swo
+*~
+
+# --- IDE / éditeurs ---
+# VSCode
+.vscode/
+# CLion / IntelliJ
+.idea/
+cmake-build-*/
+# Eclipse
+.project
+.cproject
+.settings/
+# Visual Studio
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
+*.sln
+*.sdf
+*.opensdf
+*.VC.db
+
+# --- Tests / outils ---
+*.gcda
+*.gcno
+*.gcov
+*.profraw
+*.profdata
+
+# --- OS spécifiques ---
+# macOS
+.DS_Store
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini

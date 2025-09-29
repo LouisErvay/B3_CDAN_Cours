@@ -1,0 +1,62 @@
+# --- Builds / binaires ---
+bin/
+obj/
+out/
+Debug/
+Release/
+x64/
+x86/
+[Aa]rtifacts/
+
+# --- Fichiers utilisateurs ---
+*.user
+*.userosscache
+*.suo
+*.sln.docstates
+
+# --- Visual Studio / Rider ---
+.vs/
+.idea/
+*.DotSettings.user
+
+# --- Logs / temporaires ---
+*.log
+*.tmp
+*.temp
+*.bak
+*.swp
+*~
+
+# --- Tests / couverture ---
+*.coverage
+*.coveragexml
+TestResult*/
+TestResults/
+.trx
+*.vsp
+*.vspscc
+
+# --- Packages NuGet ---
+*.nupkg
+*.snupkg
+*.nuspec
+*.nuget.props
+*.nuget.targets
+packages/
+*.lock.json
+project.lock.json
+
+# Ne pas ignorer les packages restaurés par NuGet
+!packages/build/
+
+# --- Configuration ---
+appsettings.*.json
+secrets.json
+
+# --- OS spécifiques ---
+# macOS
+.DS_Store
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
