@@ -1,23 +1,21 @@
-class Program
-{
-    static void Main(string[] args)
-    {
-        List<Task> tasks = new List<Task>();
-        tasks.Add(new Task("Sport", "Perso"));
-        tasks.Add(new Task("Cuisine", "Perso"));
-        tasks.Add(new Task("Code", "Pro"));
-        tasks.Add(new Task("Gaming", "Perso"));
-        tasks.Add(new Task("Lire", "Perso"));
+// class Program
+// {
+//     static void Main(string[] args)
+//     {
+//         List<Task> tasks = new List<Task>();
+//         tasks.Add(new Task("Sport", "Perso"));
+//         tasks.Add(new Task("Cuisine", "Perso"));
+//         tasks.Add(new Task("Code", "Pro"));
+//         tasks.Add(new Task("Gaming", "Perso"));
+//         tasks.Add(new Task("Lire", "Perso"));
 
-        tasks[0].SetIsDone(true);
-        foreach (Task task in tasks)
-        {
-            Console.WriteLine(task.GetName() + " : " + task.GetCategory() + " : " + task.GetIsDone());
-        }
-
-
-    }
-}
+//         tasks[0].SetIsDone(true);
+//         foreach (Task task in tasks)
+//         {
+//             Console.WriteLine(task.GetName() + " : " + task.GetCategory() + " : " + task.GetIsDone());
+//         }
+//     }
+// }
 class Task
 {
     private String Name;
