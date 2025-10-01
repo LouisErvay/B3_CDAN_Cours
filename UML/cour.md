@@ -141,3 +141,74 @@ classDiagram
 
     Animal <|-- Duck
 ```
+
+# 2025/10/01 : Second cour
+
+### Methodologie pour chaque diagrammes :
+
+| Diagramme         | Rôle dans la conception                                                                                                                                                                                                                                                     | Bonnes pratiques                                                                                                                                                  |
+| ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Cas d'utilisation | Définition du système cible. Identification des acteurs et de leur relation au système via des cas d'utilisation. Description textuelle des cas                                                                                                                             | Faire évoluer le diagramme par itérations. Justifier par le cahier des charges ou des hypotheses du domaine les éléments présents sur les diagrammes.             |
+| Activité          | Formalise les sénarios d'exécution d'un cas d'utilisation. Identifie et définit les activités et transitions. Met en évidence les objets requis, construits et détruits et l'enchainement des activités.                                                                    | Partir du sénario nominal. Limiter la portée des activités.                                                                                                       |
+| Séquence          | Décrit les activités au travers des messages échangés entre les objets du système. Confirme l'usage des objets dans l'enchainement des activités. Identifie et définit les membres des classes d'appartenance des objets nécéssaires au déroulement des activités décrites. | Ne pas hésiter à créer des objets si ils sont nécéssaires pour faire l'interface avec les acteurs humains. Limiter les imbrications de boucles et d'alternatives. |
+| Objet & Classe    | Représente l'état de la mémoire du système à un instant donné (objet) ou de manière généralisé (classe). Définit les liens entre objets et les généralisent en associations de classe. S'appuient sur les membres décrits dans les séquences.                               | Utiliser un language sans ambiguité dans la définition des méthodes, atributs et associations.                                                                    |
+
+### Exercice du calcul de moyenne
+
+On constate que l'on travaille avec des Acteurs, et des Notes.  
+Les acteurs peuvent être de différent type.  
+Les notes sont reliées à différents acteurs.
+
+**Constat :**  
+Pour calculer des moyennes, il nous faudrait un objet d'interface entre les acteurs et leurs notes : Calculateur.
+
+Avec ce constat, on à assez d'outils pour entamer un diagramme de séquence :
+
+```mermaid
+zenuml
+    title Generic calculateur
+    @Actor MA #FFEBE6
+    @Entity ":Calculateur"
+    @Entity ":Liste<Note>"
+    @Entity "n:Note"
+
+    @Starter(MA)
+    ":Calculateur".demanderCalculMoyenne(":MA"){
+        loop("n dernière note"){
+            if("n liée à MA"){
+                ":Liste<Note>".ajouter
+            }
+        }
+    }
+```
+
+Ce diagramme montre la demande d'un acteur au calculateur de calculer une moyenne.  
+Le calculateur va boucler sur toutes les notes du système et sélectionner celles liées à la demande de l'acteur.  
+Ce diagramme n'est pas complet mais permet de définir une base générique pour les fonctionnements spécifiques pour chaque acteurs.
+
+---
+
+On peut définir un diagramme plus précis de la méthode de calcul du Calculateur, toujours générique :
+
+```mermaid
+zenuml
+    @Actor MA
+    @Entity ":Calculateur"
+    @Entity ":Liste<Note>"
+    @Entity "n:Note"
+    @Entity "moyenne:Note"
+
+    ":Calculateur"->"moyenne:Note":Créer(0)
+    ":Calculateur"->":Liste<Note>":taille()
+    ":Liste<Note>"->":Calculateur":m
+    loop("n dans :Liste<Note>"){
+        ":Calculateur"->":Liste<Note>":pop()
+        ":Liste<Note>"->":Calculateur"::Note
+        ":Calculateur"->"n:Note":valeur()
+        "n:Note"->":Calculateur":valeur
+        ":Calculateur"->"moyenne:Note":somme(valeur)
+    }
+    ":Calculateur"->"moyenne:Note":diviser(m)
+    ":Calculateur"->MA:moyenne:Note
+    ":Calculateur"->"moyenne:Note":détruire
+```

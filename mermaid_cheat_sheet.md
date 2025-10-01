@@ -2,11 +2,15 @@
 
 ```mermaid
 flowchart LR
-    A[Rectangle]:::blue --> B((Cercle)):::red
-    B --> C{{Hexagone}}:::green
+    A[Rectangle]:::blue
+    B((Cercle)):::red
+    C{{Hexagone}}:::green
+
     classDef blue fill:#cce5ff,stroke:#004085,stroke-width:2px;
     classDef red fill:#f8d7da,stroke:#721c24,stroke-width:2px;
     classDef green fill:#d4edda,stroke:#155724,stroke-width:2px;
+
+    A --> B --> C
 ```
 
 # Diagramme de séquence
