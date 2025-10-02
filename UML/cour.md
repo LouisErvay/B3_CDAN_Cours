@@ -102,20 +102,50 @@ stateDiagram-v2
 - Chaque objet à une ligne de vie. Elle permet de déterminer les périodes d'activité et d'inactivité de l'objet dans le système.
 
 ```mermaid
-zenuml
-    title Sync message
-    A.SyncMessage
-    A.SyncMessage(with, parameters) {
-      B.nestedSyncMessage()
-    }
-    if(OK){
-      A.OK
-    } else if(NOK){
-      A.NOK
-    }
-    loop(True){
-      A.boucle
-    }
+sequenceDiagram
+  participant A as A
+  participant B as B
+  participant C as C
+
+  activate A
+  A->>B: SyncMessage
+  activate B
+  B-->>A: SyncMessageResponse
+  deactivate A
+  deactivate B
+  A->>B: SyncMessage
+  activate A
+  activate B
+  B->>C: NestedSyncMessage
+  activate C
+  C-->>B: NestedSyncMessageResponse
+  deactivate C
+  B-->>A: SyncMessageResponse
+  deactivate A
+  deactivate B
+
+  alt OK
+    activate A
+    activate B
+    A->>B: OK
+    deactivate B
+    deactivate A
+  else NOK
+    activate A
+    activate C
+    A->>C: NOK
+    deactivate C
+    deactivate A
+  end
+
+  Loop True
+    A->>B: hi
+    activate A
+    activate B
+    B-->>A: hello
+    deactivate A
+    deactivate B
+  end
 ```
 
 ### 1.7 Diagramme de class et d'objet
@@ -153,6 +183,11 @@ classDiagram
 | Séquence          | Décrit les activités au travers des messages échangés entre les objets du système. Confirme l'usage des objets dans l'enchainement des activités. Identifie et définit les membres des classes d'appartenance des objets nécéssaires au déroulement des activités décrites. | Ne pas hésiter à créer des objets si ils sont nécéssaires pour faire l'interface avec les acteurs humains. Limiter les imbrications de boucles et d'alternatives. |
 | Objet & Classe    | Représente l'état de la mémoire du système à un instant donné (objet) ou de manière généralisé (classe). Définit les liens entre objets et les généralisent en associations de classe. S'appuient sur les membres décrits dans les séquences.                               | Utiliser un language sans ambiguité dans la définition des méthodes, atributs et associations.                                                                    |
 
+### Définitions :
+
+- **Message Synchrone :** Attend une réponse, c'est un échange synchronisé
+- **Message asynchrone :** N'attend pas de réponse. N'est pas synchronisé
+
 ### Exercice du calcul de moyenne
 
 On constate que l'on travaille avec des Acteurs, et des Notes.  
@@ -165,21 +200,26 @@ Pour calculer des moyennes, il nous faudrait un objet d'interface entre les acte
 Avec ce constat, on à assez d'outils pour entamer un diagramme de séquence :
 
 ```mermaid
-zenuml
-    title Generic calculateur
-    @Actor MA #FFEBE6
-    @Entity ":Calculateur"
-    @Entity ":Liste<Note>"
-    @Entity "n:Note"
+sequenceDiagram
+    participant MA as MembreAcadémie
+    participant Calc as :Calculateur
+    participant ListeNotes as :Liste<Notes>
+    participant Note as n:Note
 
-    @Starter(MA)
-    ":Calculateur".demanderCalculMoyenne(":MA"){
-        loop("n dernière note"){
-            if("n liée à MA"){
-                ":Liste<Note>".ajouter
-            }
-        }
-    }
+
+    activate MA
+    MA->>Calc: demanderCalculMoyenne(:MA)
+    deactivate MA
+    activate Calc
+    loop n derniere note
+        alt n lie a moyenne
+            Calc->>ListeNotes: ajouter(n)
+            activate ListeNotes
+            deactivate ListeNotes
+        end
+    end
+    deactivate Calc
+
 ```
 
 Ce diagramme montre la demande d'un acteur au calculateur de calculer une moyenne.  
@@ -191,24 +231,37 @@ Ce diagramme n'est pas complet mais permet de définir une base générique pour
 On peut définir un diagramme plus précis de la méthode de calcul du Calculateur, toujours générique :
 
 ```mermaid
-zenuml
-    @Actor MA
-    @Entity ":Calculateur"
-    @Entity ":Liste<Note>"
-    @Entity "n:Note"
-    @Entity "moyenne:Note"
+sequenceDiagram
+    participant Calculateur as :Calculateur
+    participant ListeNotes as Liste<Notes>
+    participant Notes as n:Note
+    participant Moyenne as moyenne:Note
 
-    ":Calculateur"->"moyenne:Note":Créer(0)
-    ":Calculateur"->":Liste<Note>":taille()
-    ":Liste<Note>"->":Calculateur":m
-    loop("n dans :Liste<Note>"){
-        ":Calculateur"->":Liste<Note>":pop()
-        ":Liste<Note>"->":Calculateur"::Note
-        ":Calculateur"->"n:Note":valeur()
-        "n:Note"->":Calculateur":valeur
-        ":Calculateur"->"moyenne:Note":somme(valeur)
-    }
-    ":Calculateur"->"moyenne:Note":diviser(m)
-    ":Calculateur"->MA:moyenne:Note
-    ":Calculateur"->"moyenne:Note":détruire
+
+    activate Calculateur
+    Calculateur->>Moyenne: créer()
+    activate Moyenne
+    Calculateur->>ListeNotes: taille()
+    activate ListeNotes
+    ListeNotes-->>Calculateur: m
+    deactivate ListeNotes
+
+    loop n dans Liste<Note>
+        Calculateur->>ListeNotes: pop()
+        activate ListeNotes
+        ListeNotes-->>Calculateur: n:Note
+        deactivate ListeNotes
+        Calculateur->>Notes: valeur()
+
+        alt n est lie a moyenne
+            Calculateur-->>Notes: valeur()
+            activate Notes
+            Notes-->>Calculateur: valeur(n:Note)
+            deactivate Notes
+            Calculateur->>Moyenne: sommer(valeur(n:Note))
+        end
+    end
+    Calculateur->>Moyenne: diviser(m)
+    deactivate Moyenne
+    deactivate Calculateur
 ```
