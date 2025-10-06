@@ -33,4 +33,26 @@ Grâce au protocole HTTP, on à accès à plusieurs types de requettes.
 - 400 .. 499
   - Codes de mauvais requette (mauvais URL, erreur dans les données envoyés...)
 - 500 .. 599
+
   - Erreur server
+
+---
+
+# Cour du 2025/10/06 (cmon anniv mdr 26 ans deja ptn) : Base de donnée
+
+**Définition :**
+
+C'est un stockage de donnée **organisé** dans lequel on peut créer, lire, modifier, supprimer des données.
+
+### Types de DB :
+
+**SQL :**  
+Base ou la structure des données est définies par des tables.  
+Peu évolutives dans le temps.
+
+**NOSQL :**  
+Base de données type clé - valeur  
+Elle est plus propice à l'évolution continue.
+
+**GRAPH :**  
+Type de DB un peu particulier, principalement utilisée dans la data science pour l'analyse des données, la visualisation des relations entre elles.

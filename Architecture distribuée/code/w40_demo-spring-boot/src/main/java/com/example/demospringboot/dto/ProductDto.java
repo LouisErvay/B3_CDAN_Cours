@@ -1,4 +1,4 @@
-package com.example.demospringboot.dto;
+package com.example.demospringboot.w40_introduction.dto;
 
 public class ProductDto {
     Integer id;

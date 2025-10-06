@@ -1,7 +1,6 @@
-package com.example.demospringboot.controller;
+package com.example.demospringboot.w40_introduction.controller;
 
-import com.example.demospringboot.dto.AgeDto;
-import com.example.demospringboot.dto.DateDto;
+import com.example.demospringboot.w40_introduction.dto.DateDto;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

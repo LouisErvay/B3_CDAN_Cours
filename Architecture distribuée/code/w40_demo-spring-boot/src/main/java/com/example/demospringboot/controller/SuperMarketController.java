@@ -1,10 +1,9 @@
-package com.example.demospringboot.controller;
+package com.example.demospringboot.w40_introduction.controller;
 
-import com.example.demospringboot.dto.ProductDto;
+import com.example.demospringboot.w40_introduction.dto.ProductDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
 
