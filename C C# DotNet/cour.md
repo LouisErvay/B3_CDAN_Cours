@@ -187,9 +187,117 @@ public class Moto : Vehicule {
 ## Abstraction & interface
 
 - Une classe abstraite se définit avec le mot clé `abstract` dès sa définition.
+- Il faut utiliser `abstract` aussi pour définir une méthode abstrire.
+
+```c
+public abstract class Forme
+{
+    piblic abstract double CalculerAire();      // Méthode abstraite : Les enfants doivent l'implémenter
+
+    public void AfficherNom(){                  // Méthode contrète : classique
+        Console.WriteLine("Forme");
+    }
+}
+```
+
+- Une interface est un contrat qui oblige la définition de ses variables & méthodes par les enfants
+- Ne peut pas être instanciée
+- Utilise `interface` dans la déclaration
+- Son nom commence par un I majuscule par convention
+
+```c
+public interface IAnimal{               // Déclare un contrat Animal
+    string Couleur { get; set; }                // Déclare une variable
+
+    void marcher();                             // Déclare une méthode
+}
+
+public class Lion : IAnimal {           // Souscrit au contrat Animal, s'engage à implémenter ses variables & méthodes
+    public string Couleur { get; set; }
+
+    public void marcher(){
+        ...
+    }
+}
+```
 
 ## List, Dictionnaire et Hastset
 
-- TODO..
+- Tableaux
+
+```c
+// Déclaration et initialisation (taille de 3)
+string[] jours new string[3] ;
+jours[O] = "Lundi" ;
+// Initialisation simplifiée
+int[] nombres = { l0, 20, 30, 40 };
+```
+
+- Lists
+
+```c
+                                        // T est remplacé par 'int'
+List<int> scores = new List<int>();
+scores.Add(95);                         // Ajout d'un élément
+scores. Remove(95);                     // Suppression par valeur
+scores. Insert(0, l00);                 // Ajout à un index spécifique
+```
+
+- Dictionnaire
+
+```c
+// Clé: string (Nom de la ville), Valeur : int (Population)
+Dictionary<string, int> populations = new Dictionary<string, int>();
+populations.Add("Paris", 2141000)           // Ajout
+
+int pop = populations["Paris"];             // Accès par clé
+
+                                            // Vérifier l'existence d'une clé avant d'y accéder
+if (populations. ContainsKey("Lyon")){}
+```
+
+- Un **Hashset** est une collection non ordonnée qui garantit que tous les éléments sont uniques. Très rapide pour la vérification d'existence.
+- Pas d'index
+
+```c
+HashSet<string> tags = new HashSet<string>();
+tags.Add("C#")
+tags.Add("POO")
+tags.Add("C#")                          // Ignoré car déjà présent
+bool existe = tags.Contains("C#");      // Très rapide
+```
 
 ## Exceptions & try catch
+
+- Try pour ouvrir le bloc; `try{}`
+- Catch pour la gestion des erreurs; `catch{}`
+- Finally pour faire une action **quoi qu'il arrive**; `finally{}`
+
+```c
+try{
+    // Essai un bout de code
+}
+catch (ExceptionType e){    // Attrape l'exception qu'on appelle e
+    Console.WriteLine(e);
+}
+finally{
+    // Fait ce code quoi qu'il arrive
+}
+```
+
+- On peut faire au tant de catch que l'on veut avec des exceptions différentes
+- Le bloc finally est souvent utilisé pour le nettoyage
+
+## Exceptions
+
+- `throw Exception("")` pour faire remonter une exceptions
+
+- Exceptions personnalisées avec la class `System.Exception`
+
+```c
+throw new TypeException("")
+
+class CustomException : Exception{
+    public CustomException(string message) : base(message){}
+}
+```
