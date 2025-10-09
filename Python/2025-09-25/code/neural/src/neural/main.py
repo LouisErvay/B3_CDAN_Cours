@@ -3,7 +3,7 @@ from typing import Generator
 
 from .networks import NeuralNetwork
 from .neurones import SigmoidNeuron
-from .enum import NeuronType
+from .neuron_types import NeuronType
 from .decorators import trace
 
 @trace

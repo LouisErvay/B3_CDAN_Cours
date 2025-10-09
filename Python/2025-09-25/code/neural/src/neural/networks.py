@@ -2,7 +2,7 @@ from typing import List
 
 from .layers import Layer, InputLayer, HiddenLayer, OutputLayer
 from .neurones import Neuron
-from .enum import NeuronType
+from .neuron_types import NeuronType
 
 class NeuralNetworkBuilder:
     def __init__(self):
