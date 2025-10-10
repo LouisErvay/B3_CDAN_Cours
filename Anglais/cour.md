@@ -28,3 +28,11 @@ The working environment is also very cool and i like it.
 
 - **Part 6**
   The doc help my team by staying
+
+# 2025-10-10 Second course
+
+### Exercices : Writing practice
+
+- Product specification senario
+- An athletics club is developing a mobile app for event registration. Write a technical specification describing.
+- Platform compatibility, key features, system architecture overview, hardware / software requirements, data security protocols, and integration with third-party payment system.
