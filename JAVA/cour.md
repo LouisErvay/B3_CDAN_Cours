@@ -1,4 +1,4 @@
-# 2025/10/02 - Premier cour
+# 2025/10/02 - Kotlin - Premier cour
 
 ### Typage et variables
 
