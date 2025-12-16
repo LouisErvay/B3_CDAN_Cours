@@ -1,0 +1,40 @@
+{
+    "pages" : [
+        {
+            "id" : 1,
+            "url" : "https://lequipe.fr/A"
+        },
+        {
+            "id" : 2,
+            "url" : "https://lequipe.fr/B"
+        }
+    ],
+    "utilisateurs" : [
+        {
+            "id" : 1,
+            "nom" : "Dupont",
+            "prenom" : "Jean",
+            "url visités" : [
+                {
+                    "id page" : 1,
+                    "nombre de visites" : 10
+                }
+            ]
+        },
+        {
+            "id" : 2,
+            "nom" : "Martin",
+            "prenom" : "Marie",
+            "url visités" : [
+                {
+                    "id page" : 1,
+                    "nombre de visites" : 5
+                },
+                {
+                    "id page" : 2,
+                    "nombre de visites" : 15
+                }
+            ]
+        }
+    ]   
+}

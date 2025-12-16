@@ -1,0 +1,65 @@
+{
+    "personnels" : [
+        {
+            "id" : 11,
+            "name" : "Tonton",
+            "firstname" : "Pierre",
+            "travaille dans" : [
+                {
+                    "id restaurant" : 17,
+                    "role" : ["Cuisinier"]
+                }
+            ]
+        },
+        {
+            "id" : 27,
+            "name" : "Bob",
+            "firstname" : "Brice"
+        },
+        {
+            "id" : 37,
+            "name" : "Tom",
+            "firstname" : "Tim",
+            "travaille dans" : [
+                {
+                    "id restaurant" : 17,
+                    "role" : ["Serveur", "Patron"]
+                },
+                {
+                    "id restaurant" : 57,
+                    "role" : ["Cuisinier", "Patron"]
+                }
+            ]
+        },
+        {
+            "id" : 167,
+            "name" : "De Roy",
+            "firstname" : "Dan",
+            "travaille dans" : [
+                {
+                    "id restaurant" : 17,
+                    "role" : ["Serveur"]
+                }
+            ]
+        },
+        {
+            "id" : 168,
+            "name" : "Lelca",
+            "firstname" : "Pamela"
+        }
+    ],
+    "restaurants" : [
+        {
+            "id" : 17,
+            "name" : "100% Bio",
+            "year" : 2018,
+            "idPatron" : 37
+        },
+        {
+            "id" : 57,
+            "name" : "La viande Rouge",
+            "year" : 2019,
+            "idPatron" : 37
+        }
+    ]
+}

@@ -1,0 +1,61 @@
+{
+    "name" : "Organisme de formation XYZ",
+    "Année d'ouverture" : 2020,
+    "Genre" : "Scientifique",
+    "Country" : "France",
+    "matières" : {
+        "Mathématiques" : {
+            "Professeur principal" : {
+                "firstname" : "John",
+                "lastname" : "Doe",
+                "gender" : "male",
+                "date de naissance" : "1990-01-01",
+                "email" : "john.doe@example.com",
+                "phone" : "06 06 06 06 06",
+                "address" : "123 Rue de la Paix, Paris, France"
+            },
+            "professeurs" : [
+                {
+                    "firstname" : "Jane",
+                    "lastname" : "Doe",
+                    "gender" : "female",
+                    "date de naissance" : "1990-01-01",
+                    "email" : "jane.doe@example.com",
+                    "phone" : "06 06 06 06 06",
+                    "address" : "124 Rue de la Paix, Paris, France"
+                }
+            ]
+        },
+        "Physique" : {
+            "Professeur principal" : {
+                "firstname" : "Daniel",
+                "lastname" : "Smith",
+                "gender" : "male",
+                "date de naissance" : "1990-01-01",
+                "email" : "daniel.smith@example.com",
+                "phone" : "06 06 06 06 06",
+                "address" : "128 Rue de la Paix, Paris, France"
+            },
+            "professeurs" : [
+                {
+                    "firstname" : "Jeanne",
+                    "lastname" : "Santana",
+                    "gender" : "female",
+                    "date de naissance" : "1990-01-01",
+                    "email" : "jeanne.santana@example.com",
+                    "phone" : "06 06 06 06 06",
+                    "address" : "129 Rue de la Paix, Paris, France"
+                },
+                {
+                    "firstname" : "Jean",
+                    "lastname" : "Dupont",
+                    "gender" : "male",
+                    "date de naissance" : "1990-01-01",
+                    "email" : "jean.dupont@example.com",
+                    "phone" : "06 06 06 06 06",
+                    "address" : "130 Rue de la Paix, Paris, France"
+                }
+            ]
+        }
+    }
+}
