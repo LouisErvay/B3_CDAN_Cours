@@ -16,126 +16,66 @@ Il y à deux types de complexité :
 On note la complexité algorithmique de la manière suivante :
 
 -   **O(1)** : complexité temporelle **constante** (elle ne dépend pas de n)
+
+    ```python
+    def add(a, b):                  # ne dépend pas des valeurs de a et b
+        return a + b
+    ```
+
 -   **O(n)** : complexité temporelle **linéaire**
+
+    ```python
+    for i in range(n):              # dépend de la taille de n
+        print(i)
+    ```
+
 -   **O(n^2)** : complexité temporelle **quadratique**
+
+    ```python
+    for i in range(n):              # dépend de la taille de n au carré
+        for j in range(n):
+            print(i, j)
+    ```
+
 -   **O(n^3)** : complexité temporelle **cubique**
+
+    ```python
+    def print_triplets(n):          # exécuté n³ fois
+    for i in range(n):
+        for j in range(n):
+            for k in range(n):
+                print(i, j, k)
+    ```
+
 -   **O(log(n))** : complexité temporelle **logarithmique**
+
+    ```python
+    def binary_search(arr, target): # on divise le problème par 2 à chaque étape
+    left, right = 0, len(arr) - 1
+
+    while left <= right:
+        mid = (left + right) // 2
+        if arr[mid] == target:
+            return mid
+        elif arr[mid] < target:
+            left = mid + 1
+        else:
+            right = mid - 1
+
+    return -1
+    ```
+
 -   **O(n!)** : complexité temporelle **factorielle**
 
-### Exercice de calcul de complexité selon les types de données JAVA
+    ```python
+    import itertools            # n! permutations
 
-Pour chaque cas :
-Calculer les complexités temporelles (pire cas).
-Calculer les complexités temporelles (cas moyen).
-Calculer la complexité spatiale.
+    def print_permutations(arr):
+        for perm in itertools.permutations(arr):
+            print(perm)
+    ```
 
----
-
--   **Tableau (Array)** :
-
-    -   Complexité temporelle (pire cas) : O(n)
-
-        -   Lors d'une insertion ou suppression au milieu, tous les éléments suivants doivent être décalés.
-
-    -   Complexité temporelle (cas moyen) : O(1)
-
-        -   L'accès à un élément par son index se fait en temps constant.
-
-    -   Complexité spatiale : O(n)
-        -   L’espace nécessaire est proportionnel au nombre d’éléments stockés.
+Du meilleur au pire :  
+**O(1) < O(log n) < O(n) < O(n²) < O(n³) < O(n!)**
 
 ---
-
--   **Pile (Stack)** :
-
-    -   Complexité temporelle (pire cas) : O(1)
-
-        -   Les opérations push et pop s’effectuent toujours sur le sommet.
-
-    -   Complexité temporelle (cas moyen) : O(1)
-
-        -   Même justification : aucune traversée ou réorganisation n'est nécessaire.
-
-    -   Complexité spatiale : O(n)
-
-        -   La pile stocke n éléments, donc son espace croît linéairement.
-
----
-
--   **File (Queue)** :
-
-    -   Complexité temporelle (pire cas) : O(1)
-
-        -   Les opérations enqueue et dequeue se font aux extrémités en temps constant.
-
-    -   Complexité temporelle (cas moyen) : O(1)
-
-        -   Comme pour le pire cas, aucune opération ne nécessite de déplacement global.
-
-    -   Complexité spatiale : O(n)
-
-        -   L’espace dépend directement du nombre d’éléments stockés.
-
----
-
--   **Liste simplement chaînée (LinkedList)** :
-
-    -   Complexité temporelle (pire cas) : O(n)
-
-        -   L’accès ou la recherche nécessite de parcourir potentiellement tous les nœuds.
-
-    -   Complexité temporelle (cas moyen) : O(n)
-
-        -   En moyenne, il faut parcourir la moitié de la liste pour atteindre un élément.
-
-    -   Complexité spatiale : O(n)
-
-        -   Chaque élément nécessite un nœud, donc l’espace est linéaire.
-
----
-
--   **Liste doublement chaînée (DoublyLinkedList)** :
-
-    -   Complexité temporelle (pire cas) : O(n)
-
-        -   Parcourir la liste pour accéder ou rechercher un élément prend du temps linéaire.
-
-    -   Complexité temporelle (cas moyen) : O(n)
-
-        -   En moyenne, la recherche parcourt n/2 éléments.
-
-    -   Complexité spatiale : O(n)
-
-        -   Deux pointeurs par nœud (précédent et suivant), mais toujours proportionnel à n.
-
----
-
--   **Hash Table** :
-
-    -   Complexité temporelle (pire cas) : O(n)
-
-        -   En cas de collisions extrêmes, toutes les clés se retrouvent dans le même bucket.
-
-    -   Complexité temporelle (cas moyen) : O(1)
-
-        -   L’accès, l’insertion ou la recherche se basent sur un calcul de hash constant.
-
-    -   Complexité spatiale : O(n)
-
-        -   La table stocke n éléments plus les buckets, restant linéaire.
-
----
-
--   **Arbre binaire de recherche (Binary Search Tree)** :
-
-    -   Complexité temporelle (pire cas) : O(n)
-
-        -   L’arbre peut se dégénérer en liste si les valeurs arrivent triées.
-
-    -   Complexité temporelle (cas moyen) : O(log(n))
-
-        -   La hauteur moyenne est logarithmique, permettant une recherche efficace.
-
-    -   Complexité spatiale : O(n)
-
-        -   Un nœud par élément, donc espace linéaire.
