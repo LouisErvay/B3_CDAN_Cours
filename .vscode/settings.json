@@ -1,3 +1,4 @@
 {
-  "dotnet.defaultSolution": "ConsoleAppProject.sln"
+  "dotnet.defaultSolution": "ConsoleAppProject.sln",
+  "java.compile.nullAnalysis.mode": "disabled"
 }

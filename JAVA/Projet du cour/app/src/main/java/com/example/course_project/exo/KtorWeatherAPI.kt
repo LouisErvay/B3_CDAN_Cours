@@ -11,6 +11,8 @@ import io.ktor.serialization.kotlinx.json.*
 import java.io.PrintStream
 import java.nio.charset.StandardCharsets
 import java.util.Scanner
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.first
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 
@@ -22,8 +24,13 @@ suspend fun main() {
     print("Entrez le nom de la ville : ")
     val city = scanner.nextLine()
 
-    val weathers = KtorWeatherAPI.loadWeathers(city)
-    weathers.forEach { weatherBean ->
+    val viewModel = MainViewModel()
+    viewModel.loadWeathers(city)
+
+    // Attendre que runInProgress repasse à false
+    viewModel.runInProgress.first { !it }
+
+    viewModel.weathers.forEach { weatherBean ->
         println(weatherBean.id)
         println(weatherBean.name)
         println(weatherBean.getResume())
@@ -53,6 +60,7 @@ object KtorWeatherAPI {
     }
 
     suspend fun loadWeathers(ville: String): List<WeatherBean> {
+        delay(2000) // Simulation d'une longue requête - À RETIRER après les tests
         val response: WeatherResponse =
                 client
                         .get(BASE_URL) {

@@ -1,14 +1,17 @@
 # 2025/10/02 - Kotlin - Premier cour
 
+URL du cour du prof :  
+https://www.amonteiro.fr/android/index.html#/
+
 ### Typage et variables
 
-- Tous les types commencent par une majuscule (Int, String, Long...)
+-   Tous les types commencent par une majuscule (Int, String, Long...)
 
-- Deux mots clé pour déclarer une variable :
+-   Deux mots clé pour déclarer une variable :
 
-  - `var` : une variable, peut évoluer au cours du temps
-  - `val` : une constante, ne peux pas évoluer au cours du temps
-  - `const` : Une constante est couplée à un var ou val. Elle permet, à la compillation, de remplacer l'appel de la variable directement par la valeur de la constante.
+    -   `var` : une variable, peut évoluer au cours du temps
+    -   `val` : une constante, ne peux pas évoluer au cours du temps
+    -   `const` : Une constante est couplée à un var ou val. Elle permet, à la compillation, de remplacer l'appel de la variable directement par la valeur de la constante.
 
 ```java
 const val PRIX: Double = 1.5        // Avec const, a la compillation, PRIX sera remplacée par 1.5
@@ -17,7 +20,7 @@ var prix_total = 5 * PRIX           // Donc 5*PRIX devient 5*1.5
 
 ```
 
-- Si on veut déclarer une variable nullable, il faut utiliser un ? :
+-   Si on veut déclarer une variable nullable, il faut utiliser un ? :
 
 ```java
 var v1:String = "lol"
@@ -27,9 +30,9 @@ var v2:String? = "lol"
 v2 = null                           // ok car déclarée avec un ?, donc variable nullable
 ```
 
-- Principe de **safe check** :
-  - C'est le principe de checker si une variable n'est pas null avec un ? après l'appel d'une variable.
-  - `v2?` vérifira que la variable n'est pas null avant de l'utiliser.
+-   Principe de **safe check** :
+    -   C'est le principe de checker si une variable n'est pas null avec un ? après l'appel d'une variable.
+    -   `v2?` vérifira que la variable n'est pas null avant de l'utiliser.
 
 ```java
 var v2:String? = "Du texte"
@@ -44,8 +47,8 @@ else
     v3 = null
 ```
 
-- **Elvis** operator
-  - Permet de rendre un résultat par défaut si une variable nullable est null lors d'un traitement
+-   **Elvis** operator
+    -   Permet de rendre un résultat par défaut si une variable nullable est null lors d'un traitement
 
 ```java
 var v3:String = v2 ?: "" // si v2 est null alors v3 = ""
@@ -61,7 +64,7 @@ var dogName:String = resident?.leftNeighbor?.dog?.name ?: "Pas de chien"
 
 ### Fonctions
 
-- Une fonction se déclare avec le mot clé `fun` :
+-   Une fonction se déclare avec le mot clé `fun` :
 
 ```java
 fun max(a: Int, b:Int) : Int {
@@ -73,17 +76,17 @@ fun max(a: Int, b:Int) : Int {
 }
 ```
 
-- **Type de retour** :
+-   **Type de retour** :
 
-  - Le type de retour est déclaré après les parenthèses avec un :
-  - `fun x(): Int{}` retourne un int
-  - Une fonction qui ne retourne rien sera typé `Unit`, c'est l'équivalent du `void` JAVA.
-  - `Any` est l'équivalent de `Object` en JAVA, et représente n'importe quel type de retour.
+    -   Le type de retour est déclaré après les parenthèses avec un :
+    -   `fun x(): Int{}` retourne un int
+    -   Une fonction qui ne retourne rien sera typé `Unit`, c'est l'équivalent du `void` JAVA.
+    -   `Any` est l'équivalent de `Object` en JAVA, et représente n'importe quel type de retour.
 
 ---
 
-- **Fonction expression** :
-  - Si une fonction ne contient qu'un return, alors on peut la compacter en une seule ligne en remplacant les `{}` par un `=` :
+-   **Fonction expression** :
+    -   Si une fonction ne contient qu'un return, alors on peut la compacter en une seule ligne en remplacant les `{}` par un `=` :
 
 ```java
 fun max(a: Int, b:Int) : Int {
@@ -97,9 +100,9 @@ Cette fonction peut s'écrire avec une fonction expression :
 fun max3(a: Int, b:Int) : Int = if(a>=b) a else b
 ```
 
-- **Paramètres** dans les fonctions :
+-   **Paramètres** dans les fonctions :
 
-  - Il n'y a pas d'ordre obligatoire dans l'appel des paramètres quand on appelle une fonction :
+    -   Il n'y a pas d'ordre obligatoire dans l'appel des paramètres quand on appelle une fonction :
 
 ```java
 fun iam(surname:String, name: String)
@@ -110,7 +113,7 @@ iam(surname="Anthony", name="Monteiro")
 iam(name="Monteiro", surname="Anthony")
 ```
 
-- Les **paramètres par défaut** :
+-   Les **paramètres par défaut** :
 
 ```java
 fun iam(surname: String="-", name:String? = null)
@@ -127,7 +130,7 @@ iam()
 
 ### Classes
 
-- La déclaration d'un classe crée en même temps les attributs de ma class, et les différents constructeurs :
+-   La déclaration d'un classe crée en même temps les attributs de ma class, et les différents constructeurs :
 
 ```java
 data class UserBean(var email: String = "", var password: String? = null, var age: Int =0)
@@ -140,13 +143,13 @@ Les **getter et setter** son également générés.
 
 ---
 
-- On peut également déclarer des attributs dans la class (comme JAVA).  
-  Ces attributs ne peuvent pas être passés à la création d'uns instance. il faut faire par la suite `obj.attribut = "value"`
+-   On peut également déclarer des attributs dans la class (comme JAVA).  
+    Ces attributs ne peuvent pas être passés à la création d'uns instance. il faut faire par la suite `obj.attribut = "value"`
 
-- **! Important !**  
-  Les getter et setter sont automatiquement crées pour chaque attributs, qu'ils aient été déclarée dans les parenthèses ou dans la class.  
-  Cependant, pour les utiliser, on fait de simples appels aux attributs de l'objet que l'on manipule.  
-  D'où le `user.email = ".."` qui fait bien un appel au setter de l'attribut email, mais sans que l'on le voit.
+-   **! Important !**  
+    Les getter et setter sont automatiquement crées pour chaque attributs, qu'ils aient été déclarée dans les parenthèses ou dans la class.  
+    Cependant, pour les utiliser, on fait de simples appels aux attributs de l'objet que l'on manipule.  
+    D'où le `user.email = ".."` qui fait bien un appel au setter de l'attribut email, mais sans que l'on le voit.
 
 ```java
 class UserBean(var name: String, var age: Int) {
@@ -168,7 +171,7 @@ fun main() {
 
 ---
 
-- Pour faire un traitement spécifique à l'instantitaion de mon objet, je peux utiliser `init{}` qui sera le bloc de code exécuté lors de la construction de mon objet.
+-   Pour faire un traitement spécifique à l'instantitaion de mon objet, je peux utiliser `init{}` qui sera le bloc de code exécuté lors de la construction de mon objet.
 
 ```java
 class UserBean(var name: String, domaine: String) {
@@ -187,11 +190,11 @@ class UserBean(var name: String, domaine: String) {
 
 ### Data Class
 
-- Elles ont par défaut les méthodes :
-  - toString() (Affichage)
-  - Equals() (Comparaison)
-  - copy() (Cloner une instance)  
-    Cela **ne concerne que les attributs constructeur** (dans les parenthèses)
+-   Elles ont par défaut les méthodes :
+    -   toString() (Affichage)
+    -   Equals() (Comparaison)
+    -   copy() (Cloner une instance)  
+        Cela **ne concerne que les attributs constructeur** (dans les parenthèses)
 
 ```java
 class TownBean(val city: String, val cp: String) {
@@ -229,7 +232,7 @@ fun main(){
 
 En java, une class singleton est comme ceci :
 
-- **En java :**
+-   **En java :**
 
 ```java
 public class User {
@@ -257,7 +260,7 @@ public class User {
 }
 ```
 
-- **En kotlin :**
+-   **En kotlin :**
 
 ```java
 object User {
@@ -267,7 +270,7 @@ object User {
 
 ### Boucles et conditions :
 
-- **Mot clé `Step`** :
+-   **Mot clé `Step`** :
 
 ```java
 val max = 10
@@ -276,7 +279,7 @@ for(i in 1..max step 3) {           // On itère par pas de 3
 }
 ```
 
-- **Mot clé `DownTo`** :
+-   **Mot clé `DownTo`** :
 
 ```java
 val max = 10
@@ -285,7 +288,7 @@ for(i in max downTo 0 step 3) {     // On itère de max jusqu'à 0, par pas de 3
 }
 ```
 
-- **Mot clé `Repeat`** :
+-   **Mot clé `Repeat`** :
 
 ```java
 
@@ -298,7 +301,7 @@ repeat(maCollection.size) {         // Parcourir une collection
 }
 ```
 
-- **Mot clé `in`** :
+-   **Mot clé `in`** :
 
 ```java
 for(i in 3..18) {...}
@@ -306,7 +309,7 @@ for(i in 3..18) {...}
 if(18 !in maCollection) {...}
 ```
 
-- **Itérer une String** :
+-   **Itérer une String** :
 
 ```java
 for (i in monString.indices ) {}            // Sans les indexs
@@ -316,15 +319,15 @@ for ((i, c) in monString.withIndex()) {     // Avec les indexs
 }
 ```
 
-- **Opérateur `?:`** :
+-   **Opérateur `?:`** :
 
 ```java
 val l = if (b != null) b.length else -1     // Code en JAVA Pur
 val l = b?.length ?: -1                     // Version Kotlin avec Elvis
 ```
 
-- **Opérateur `!!`** :
-  - Génère une `NullPointerException` si la variable n'est pas null
+-   **Opérateur `!!`** :
+    -   Génère une `NullPointerException` si la variable n'est pas null
 
 ```java
 print("${toto.nom!!.toUpperCase()}")        // NullPointerException si nom est null
@@ -332,7 +335,7 @@ print("${toto.nom!!.toUpperCase()}")        // NullPointerException si nom est n
 
 ### Tableaux et ArrayList
 
-- **Tableaux** :
+-   **Tableaux** :
 
 ```java
 val tab = Array(12){ 0 }            // Déclaration | Typage
@@ -353,7 +356,7 @@ tab.take(3)                         // les 3 premiers éléments du tableau, san
 tab.drop(3)                         // le tableau sans ses 3 premiers éléments, sans le modifier
 ```
 
-- **ArrayList** :
+-   **ArrayList** :
 
 ```java
 
@@ -378,4 +381,4 @@ myList.foreach{ it.name += "_student" }     // Parcours de liste
 
 ### API REST
 
-- **Librairie KTOR**
+-   **Librairie KTOR**
