@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">a25_09_b3cdev</string>
+    <string name="search_placeholder">Votre recherche ici</string>
+    <string name="search_description">Rechercher</string>
+    <string name="clear_filter">Effacer le filtre</string>
+    <string name="clear_filter_description">Effacer le filtre</string>
+    <string name="reload_data">Recharger les données</string>
+    <string name="reload_data_description">Recharger les données</string>
+    <string name="picture_of_cat">Une image de chat</string>
+</resources>
+

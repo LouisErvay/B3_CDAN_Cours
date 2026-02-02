@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">a25_09_b3cdev</string>
+    <string name="search_placeholder">Your search here</string>
+    <string name="search_description">Search</string>
+    <string name="clear_filter">Clear filter</string>
+    <string name="clear_filter_description">Clear filter</string>
+    <string name="reload_data">Reload data</string>
+    <string name="reload_data_description">Reload data</string>
+    <string name="picture_of_cat">A picture of cat</string>
 </resources>

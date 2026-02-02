@@ -1,6 +1,8 @@
 package com.example.a25_09_b3cdev.presentation.ui.screens
 
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -32,6 +34,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -44,13 +48,8 @@ import com.example.a25_09_b3cdev.presentation.ui.theme.AppTheme
 import com.example.a25_09_b3cdev.presentation.viewmodel.MainViewModel
 
 @Preview(showBackground = true, showSystemUi = true)
-// @Preview(showBackground = true, showSystemUi = true,
-//           uiMode = android.content.res.Configuration.UI_MODE_NIGHT_YES or
-// android.content.res.Configuration.UI_MODE_TYPE_NORMAL)
 @Composable
 fun SearchScreenPreview() {
-    // Il faut remplacer NomVotreAppliTheme par le thème de votre application
-    // Utilisé par exemple dans MainActivity.kt sous setContent {...}
     AppTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             SearchScreen(modifier = Modifier.padding(innerPadding))
@@ -59,55 +58,73 @@ fun SearchScreenPreview() {
 }
 
 @Composable
+fun SearchBar(
+        searchText: String,
+        onSearchTextChange: (String) -> Unit,
+        modifier: Modifier = Modifier
+) {
+    OutlinedTextField(
+            value = searchText,
+            onValueChange = onSearchTextChange,
+            modifier = modifier.fillMaxWidth().padding(16.dp),
+            placeholder = {
+                Text(
+                        text = stringResource(R.string.search_placeholder),
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            },
+            leadingIcon = {
+                Icon(
+                        imageVector = Icons.Default.Search,
+                        contentDescription = stringResource(R.string.search_description),
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            },
+            colors =
+                    OutlinedTextFieldDefaults.colors(
+                            focusedTextColor = MaterialTheme.colorScheme.onSurface,
+                            unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
+                            focusedBorderColor = MaterialTheme.colorScheme.primary,
+                            unfocusedBorderColor = MaterialTheme.colorScheme.outline,
+                            focusedContainerColor = MaterialTheme.colorScheme.surface,
+                            unfocusedContainerColor = MaterialTheme.colorScheme.surface
+                    ),
+            shape = RoundedCornerShape(8.dp),
+            singleLine = true
+    )
+}
+
+@Composable
 fun SearchScreen(modifier: Modifier = Modifier, mainViewModel: MainViewModel = viewModel()) {
 
     val list = mainViewModel.dataList.collectAsStateWithLifecycle().value
     var searchText by remember { mutableStateOf("") }
 
-    Column(modifier = modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {
-        // SearchBar
-        OutlinedTextField(
-                value = searchText,
-                onValueChange = { searchText = it },
-                modifier = Modifier.fillMaxWidth().padding(16.dp),
-                placeholder = {
-                    Text(
-                            text = "Votre recherche ici",
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                },
-                leadingIcon = {
-                    Icon(
-                            imageVector = Icons.Default.Search,
-                            contentDescription = "Rechercher",
-                            tint = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                },
-                colors =
-                        OutlinedTextFieldDefaults.colors(
-                                focusedTextColor = MaterialTheme.colorScheme.onSurface,
-                                unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
-                                focusedBorderColor = MaterialTheme.colorScheme.primary,
-                                unfocusedBorderColor = MaterialTheme.colorScheme.outline,
-                                focusedContainerColor = MaterialTheme.colorScheme.surface,
-                                unfocusedContainerColor = MaterialTheme.colorScheme.surface
-                        ),
-                shape = RoundedCornerShape(8.dp),
-                singleLine = true
-        )
+    val filteredList =
+            remember(list, searchText) {
+                if (searchText.isBlank()) {
+                    list
+                } else {
+                    list.filter { item ->
+                        item.name.contains(searchText, ignoreCase = true) ||
+                                item.getResume().contains(searchText, ignoreCase = true)
+                    }
+                }
+            }
 
-        // LazyColumn pour la liste
+    Column(modifier = modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {
+        SearchBar(searchText = searchText, onSearchTextChange = { searchText = it })
+
         LazyColumn(modifier = Modifier.weight(1f).fillMaxWidth()) {
-            items(list) { item -> PictureRowItem(data = item) }
+            items(filteredList) { item -> PictureRowItem(data = item) }
         }
 
-        // Boutons en bas
         Row(
                 modifier = Modifier.fillMaxWidth().padding(16.dp),
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             Button(
-                    onClick = { /* Non fonctionnel pour le moment */},
+                    onClick = { searchText = "" },
                     modifier = Modifier.weight(1f),
                     shape = RoundedCornerShape(8.dp),
                     colors =
@@ -118,10 +135,10 @@ fun SearchScreen(modifier: Modifier = Modifier, mainViewModel: MainViewModel = v
             ) {
                 Icon(
                         imageVector = Icons.Default.Close,
-                        contentDescription = "Clear filter",
+                        contentDescription = stringResource(R.string.clear_filter_description),
                         modifier = Modifier.padding(end = 8.dp)
                 )
-                Text("Clear filter")
+                Text(stringResource(R.string.clear_filter))
             }
 
             Button(
@@ -136,10 +153,10 @@ fun SearchScreen(modifier: Modifier = Modifier, mainViewModel: MainViewModel = v
             ) {
                 Icon(
                         imageVector = Icons.Default.Refresh,
-                        contentDescription = "Reload data",
+                        contentDescription = stringResource(R.string.reload_data_description),
                         modifier = Modifier.padding(end = 8.dp)
                 )
-                Text("Reload data")
+                Text(stringResource(R.string.reload_data))
             }
         }
     }
@@ -147,39 +164,38 @@ fun SearchScreen(modifier: Modifier = Modifier, mainViewModel: MainViewModel = v
 
 @Composable // Composable affichant 1 élément
 fun PictureRowItem(modifier: Modifier = Modifier, data: WeatherEntity) {
+    var isExpanded by remember { mutableStateOf(false) }
+
     Row(
             modifier =
                     modifier.padding(10.dp)
                             .fillMaxWidth()
-                            .background(MaterialTheme.colorScheme.surface)
+                            .background(MaterialTheme.colorScheme.surfaceContainerHighest)
+                            .clickable { isExpanded = !isExpanded }
+                            .animateContentSize()
     ) {
 
         // Permission Internet nécessaire
         AsyncImage(
                 model = data.weather.firstOrNull()?.icon,
-                // Pour aller le chercher dans string.xml R de votre package com.nom.projet
-                // contentDescription = getString(R.string.picture_of_cat),
-                // En dur
-                contentDescription = "une photo de chat",
+                contentDescription = stringResource(R.string.picture_of_cat),
                 contentScale = ContentScale.FillWidth,
 
-                // Pour toto.png. Si besoin de choisir l'import pour la classe R, c'est celle de
-                // votre package
-                // Image d'échec de chargement qui sera utilisé par la preview
-                error = painterResource(R.drawable.error),
                 // Image d'attente.
-                // placeholder = painterResource(R.drawable.toto),
-
+                error = painterResource(R.drawable.error),
                 onError = { println(it) },
                 modifier = Modifier.heightIn(max = 100.dp).widthIn(max = 100.dp)
         )
 
-        Column(modifier = Modifier.padding(10.dp)) {
+        Column(modifier = Modifier.padding(10.dp).weight(1f)) {
             Text(text = data.name, fontSize = 20.sp, color = MaterialTheme.colorScheme.primary)
             Text(
-                    text = data.getResume().take(15) + "...",
+                    text = data.getResume(),
                     fontSize = 14.sp,
-                    color = MaterialTheme.colorScheme.onSurface
+                    color = MaterialTheme.colorScheme.onSurface,
+                    maxLines = if (isExpanded) Int.MAX_VALUE else 1,
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier.fillMaxWidth()
             )
         }
     }
