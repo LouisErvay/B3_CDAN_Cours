@@ -22,7 +22,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
 import com.example.a25_09_b3cdev.R
 import com.example.a25_09_b3cdev.data.remote.WeatherEntity
-import com.example.a25_09_b3cdev.presentation.ui.theme.A25_09_b3cdevTheme
+import com.example.a25_09_b3cdev.presentation.ui.theme.AppTheme
 import com.example.a25_09_b3cdev.presentation.viewmodel.MainViewModel
 
 @Preview(showBackground = true, showSystemUi = true)
@@ -32,7 +32,7 @@ import com.example.a25_09_b3cdev.presentation.viewmodel.MainViewModel
 fun SearchScreenPreview() {
     //Il faut remplacer NomVotreAppliTheme par le thème de votre application
     //Utilisé par exemple dans MainActivity.kt sous setContent {...}
-    A25_09_b3cdevTheme {
+    AppTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             SearchScreen(modifier = Modifier.padding(innerPadding))
         }
