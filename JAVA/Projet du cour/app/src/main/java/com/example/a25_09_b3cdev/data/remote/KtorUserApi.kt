@@ -1,31 +1,41 @@
-package com.example.course_project.exo
+package com.example.a25_09_b3cdev.data.remote
 
 import android.annotation.SuppressLint
-import io.ktor.client.*
-import io.ktor.client.call.*
-import io.ktor.client.engine.*
-import io.ktor.client.plugins.contentnegotiation.*
-import io.ktor.client.plugins.logging.*
-import io.ktor.client.request.*
-import io.ktor.http.*
-import io.ktor.serialization.kotlinx.json.*
-import kotlinx.coroutines.flow.flow
+import io.ktor.client.HttpClient
+import io.ktor.client.call.body
+import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.client.plugins.logging.LogLevel
+import io.ktor.client.plugins.logging.Logger
+import io.ktor.client.plugins.logging.Logging
+import io.ktor.client.request.get
+import io.ktor.http.ContentType
+import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 
 //Suspend sera expliqué dans le chapitre des coroutines
 suspend fun main() {
-    val list : List<MuseumObject> = KtorMuseumApi.getData()
-    println(list.joinToString(separator = "\n\n"))
+    val user = KtorUserApi.getRandomUser()
+    repeat(5) {
+        println(
+            """
+        Il s'appelle ${user.name} pour le contacter :
+        Phone : ${user.coord?.phone ?: "-"}
+        Mail : ${user.coord?.mail ?: "-"}
+    """.trimIndent()
+        )
+
+        println(user)
+    }
     KtorMuseumApi.close()
 }
 
-object KtorMuseumApi {
+object KtorUserApi {
     private const val API_URL =
-        "https://raw.githubusercontent.com/Kotlin/KMP-App-Template/main/list.json"
+        "https://www.amonteiro.fr/api/randomuser"
 
     //Création et réglage du client
-    private val client  = HttpClient {
+    private val client = HttpClient {
         install(Logging) {
             //(import io.ktor.client.plugins.logging.Logger)
             logger = object : Logger {
@@ -44,22 +54,15 @@ object KtorMuseumApi {
 
     //GET Le JSON reçu sera parser en List<MuseumObject>,
     //Crash si le JSON ne correspond pas
-    suspend fun getData(): List<MuseumObject> {
-        return client.get(API_URL){
+    suspend fun getRandomUser(): UserObject {
+        return client.get(API_URL) {
 //            headers {
 //                append("Authorization", "Bearer YOUR_TOKEN")
 //                append("Custom-Header", "CustomValue")
 //            }
         }.body()
         //possibilité de typer le body
-        //.body<List<MuseumObject>>()
-    }
-
-    //POST
-    suspend fun postData(newObject: MuseumObject): MuseumObject {
-        return client.post(API_URL){
-            setBody(newObject)
-        }.body()
+        //.body<UserObject>()
     }
 
     //Ferme le Client mais celui ci ne sera plus utilisable. Uniquement pour le main
@@ -75,11 +78,16 @@ object KtorMuseumApi {
 
 @SuppressLint("UnsafeOptInUsageError")
 @Serializable //KotlinX impose cette annotation
-data class MuseumObject(
-    val objectID: Int,
-    val title: String,
-    val artistDisplayName: String,
-    val primaryImage: String,
-    //Si un attribut n'est pas toujours dans le JSON il faut lui donner une valeur par défaut
-    val optionalField : String? = null
+data class UserObject(
+    val name: String,
+    val age: Int,
+    val coord: CoordObject?,
 )
+
+@SuppressLint("UnsafeOptInUsageError")
+@Serializable //KotlinX impose cette annotation
+data class CoordObject(
+    val phone: String?,
+    val mail: String?,
+)
+

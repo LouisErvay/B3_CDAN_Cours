@@ -1,6 +1,5 @@
-package com.example.course_project.ui.theme
+package com.example.a25_09_b3cdev.presentation.ui.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
@@ -34,7 +33,7 @@ private val LightColorScheme = lightColorScheme(
 )
 
 @Composable
-fun Course_projectTheme(
+fun A25_09_b3cdevTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
     dynamicColor: Boolean = true,
@@ -56,3 +55,4 @@ fun Course_projectTheme(
         content = content
     )
 }
+
