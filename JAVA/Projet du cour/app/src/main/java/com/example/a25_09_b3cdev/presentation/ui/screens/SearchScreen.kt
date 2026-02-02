@@ -14,6 +14,8 @@ import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Refresh
@@ -30,11 +32,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -52,7 +56,12 @@ import com.example.a25_09_b3cdev.presentation.viewmodel.MainViewModel
 fun SearchScreenPreview() {
     AppTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-            SearchScreen(modifier = Modifier.padding(innerPadding))
+            val previewViewModel = MainViewModel()
+            previewViewModel.loadFakeData()
+            SearchScreen(
+                    modifier = Modifier.padding(innerPadding),
+                    mainViewModel = previewViewModel
+            )
         }
     }
 }
@@ -61,6 +70,7 @@ fun SearchScreenPreview() {
 fun SearchBar(
         searchText: String,
         onSearchTextChange: (String) -> Unit,
+        onSearch: () -> Unit,
         modifier: Modifier = Modifier
 ) {
     OutlinedTextField(
@@ -90,7 +100,9 @@ fun SearchBar(
                             unfocusedContainerColor = MaterialTheme.colorScheme.surface
                     ),
             shape = RoundedCornerShape(8.dp),
-            singleLine = true
+            singleLine = true,
+            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+            keyboardActions = KeyboardActions(onSearch = { onSearch() })
     )
 }
 
@@ -98,25 +110,23 @@ fun SearchBar(
 fun SearchScreen(modifier: Modifier = Modifier, mainViewModel: MainViewModel = viewModel()) {
 
     val list = mainViewModel.dataList.collectAsStateWithLifecycle().value
-    var searchText by remember { mutableStateOf("") }
+    var searchText by rememberSaveable { mutableStateOf("") }
 
-    val filteredList =
-            remember(list, searchText) {
-                if (searchText.isBlank()) {
-                    list
-                } else {
-                    list.filter { item ->
-                        item.name.contains(searchText, ignoreCase = true) ||
-                                item.getResume().contains(searchText, ignoreCase = true)
-                    }
-                }
-            }
+    fun performSearch() {
+        if (searchText.isNotBlank()) {
+            mainViewModel.loadWeathers(searchText)
+        }
+    }
 
     Column(modifier = modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {
-        SearchBar(searchText = searchText, onSearchTextChange = { searchText = it })
+        SearchBar(
+                searchText = searchText,
+                onSearchTextChange = { searchText = it },
+                onSearch = { performSearch() }
+        )
 
         LazyColumn(modifier = Modifier.weight(1f).fillMaxWidth()) {
-            items(filteredList) { item -> PictureRowItem(data = item) }
+            items(list) { item -> PictureRowItem(data = item) }
         }
 
         Row(
@@ -142,7 +152,7 @@ fun SearchScreen(modifier: Modifier = Modifier, mainViewModel: MainViewModel = v
             }
 
             Button(
-                    onClick = { /* Non fonctionnel pour le moment */},
+                    onClick = { performSearch() },
                     modifier = Modifier.weight(1f),
                     shape = RoundedCornerShape(8.dp),
                     colors =
