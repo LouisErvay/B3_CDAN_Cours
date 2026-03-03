@@ -1,4 +1,17 @@
 {
   "dotnet.defaultSolution": "ConsoleAppProject.sln",
-  "java.compile.nullAnalysis.mode": "disabled"
+  "java.compile.nullAnalysis.mode": "disabled",
+  "sqltools.connections": [
+    {
+      "ssh": "Disabled",
+      "previewLimit": 50,
+      "server": "localhost",
+      "port": 5432,
+      "driver": "PostgreSQL",
+      "name": "SQL Intermediaire",
+      "database": "cour_sql_intermediaire",
+      "username": "postgres",
+      "password": "pgadmin"
+    }
+  ]
 }
