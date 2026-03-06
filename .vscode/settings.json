@@ -12,6 +12,16 @@
       "database": "cour_sql_intermediaire",
       "username": "postgres",
       "password": "pgadmin"
+    },
+    {
+      "ssh": "Disabled",
+      "previewLimit": 50,
+      "server": "localhost",
+      "port": 5432,
+      "driver": "PostgreSQL",
+      "name": "Eval SpringBoot Pokemon",
+      "database": "eval_spring_boot_pokemon",
+      "username": "postgres"
     }
   ]
 }
