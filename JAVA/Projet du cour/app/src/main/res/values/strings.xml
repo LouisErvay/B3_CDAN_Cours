@@ -7,4 +7,10 @@
     <string name="reload_data">Reload data</string>
     <string name="reload_data_description">Reload data</string>
     <string name="picture_of_cat">A picture of cat</string>
+    <string name="back">Retour</string>
+    <string name="details_title_fallback">Détails</string>
+    <string name="details_empty">Aucun résultat à afficher</string>
+    <string name="temperature_format">Température : %1$.1f°C</string>
+    <string name="wind_format">Vent : %1$.1f m/s</string>
+    <string name="conditions_title">Conditions</string>
 </resources>

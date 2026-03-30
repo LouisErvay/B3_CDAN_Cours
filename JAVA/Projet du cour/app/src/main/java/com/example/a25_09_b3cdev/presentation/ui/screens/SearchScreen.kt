@@ -1,6 +1,5 @@
 package com.example.a25_09_b3cdev.presentation.ui.screens
 
-import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -74,40 +73,44 @@ fun SearchBar(
         modifier: Modifier = Modifier
 ) {
     OutlinedTextField(
-            value = searchText,
-            onValueChange = onSearchTextChange,
-            modifier = modifier.fillMaxWidth().padding(16.dp),
-            placeholder = {
-                Text(
-                        text = stringResource(R.string.search_placeholder),
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-            },
-            leadingIcon = {
-                Icon(
-                        imageVector = Icons.Default.Search,
-                        contentDescription = stringResource(R.string.search_description),
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-            },
-            colors =
-                    OutlinedTextFieldDefaults.colors(
-                            focusedTextColor = MaterialTheme.colorScheme.onSurface,
-                            unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
-                            focusedBorderColor = MaterialTheme.colorScheme.primary,
-                            unfocusedBorderColor = MaterialTheme.colorScheme.outline,
-                            focusedContainerColor = MaterialTheme.colorScheme.surface,
-                            unfocusedContainerColor = MaterialTheme.colorScheme.surface
-                    ),
-            shape = RoundedCornerShape(8.dp),
-            singleLine = true,
-            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
-            keyboardActions = KeyboardActions(onSearch = { onSearch() })
+        value = searchText,
+        onValueChange = onSearchTextChange,
+        modifier = modifier.fillMaxWidth().padding(16.dp),
+        placeholder = {
+            Text(
+                text = stringResource(R.string.search_placeholder),
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        },
+        leadingIcon = {
+            Icon(
+                imageVector = Icons.Default.Search,
+                contentDescription = stringResource(R.string.search_description),
+                tint = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        },
+        colors =
+            OutlinedTextFieldDefaults.colors(
+                focusedTextColor = MaterialTheme.colorScheme.onSurface,
+                unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
+                focusedBorderColor = MaterialTheme.colorScheme.primary,
+                unfocusedBorderColor = MaterialTheme.colorScheme.outline,
+                focusedContainerColor = MaterialTheme.colorScheme.surface,
+                unfocusedContainerColor = MaterialTheme.colorScheme.surface
+            ),
+        shape = RoundedCornerShape(8.dp),
+        singleLine = true,
+        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+        keyboardActions = KeyboardActions(onSearch = { onSearch() })
     )
 }
 
 @Composable
-fun SearchScreen(modifier: Modifier = Modifier, mainViewModel: MainViewModel = viewModel()) {
+fun SearchScreen(
+    modifier: Modifier = Modifier,
+    mainViewModel: MainViewModel = viewModel(),
+    onWeatherClick: (WeatherEntity) -> Unit = {}
+) {
 
     val list = mainViewModel.dataList.collectAsStateWithLifecycle().value
     var searchText by rememberSaveable { mutableStateOf("") }
@@ -126,7 +129,7 @@ fun SearchScreen(modifier: Modifier = Modifier, mainViewModel: MainViewModel = v
         )
 
         LazyColumn(modifier = Modifier.weight(1f).fillMaxWidth()) {
-            items(list) { item -> PictureRowItem(data = item) }
+            items(list) { item -> PictureRowItem(data = item, onClick = { onWeatherClick(item) }) }
         }
 
         Row(
@@ -134,32 +137,32 @@ fun SearchScreen(modifier: Modifier = Modifier, mainViewModel: MainViewModel = v
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             Button(
-                    onClick = { searchText = "" },
-                    modifier = Modifier.weight(1f),
-                    shape = RoundedCornerShape(8.dp),
-                    colors =
-                            ButtonDefaults.buttonColors(
-                                    containerColor = MaterialTheme.colorScheme.primaryContainer,
-                                    contentColor = MaterialTheme.colorScheme.onPrimaryContainer
-                            )
+                onClick = { searchText = "" },
+                modifier = Modifier.weight(1f),
+                shape = RoundedCornerShape(8.dp),
+                colors =
+                    ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.primaryContainer,
+                        contentColor = MaterialTheme.colorScheme.onPrimaryContainer
+                    )
             ) {
                 Icon(
-                        imageVector = Icons.Default.Close,
-                        contentDescription = stringResource(R.string.clear_filter_description),
-                        modifier = Modifier.padding(end = 8.dp)
+                    imageVector = Icons.Default.Close,
+                    contentDescription = stringResource(R.string.clear_filter_description),
+                    modifier = Modifier.padding(end = 8.dp)
                 )
                 Text(stringResource(R.string.clear_filter))
             }
 
             Button(
-                    onClick = { performSearch() },
-                    modifier = Modifier.weight(1f),
-                    shape = RoundedCornerShape(8.dp),
-                    colors =
-                            ButtonDefaults.buttonColors(
-                                    containerColor = MaterialTheme.colorScheme.primaryContainer,
-                                    contentColor = MaterialTheme.colorScheme.onPrimaryContainer
-                            )
+                onClick = { performSearch() },
+                modifier = Modifier.weight(1f),
+                shape = RoundedCornerShape(8.dp),
+                colors =
+                    ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.primaryContainer,
+                        contentColor = MaterialTheme.colorScheme.onPrimaryContainer
+                    )
             ) {
                 Icon(
                         imageVector = Icons.Default.Refresh,
@@ -173,16 +176,18 @@ fun SearchScreen(modifier: Modifier = Modifier, mainViewModel: MainViewModel = v
 }
 
 @Composable // Composable affichant 1 élément
-fun PictureRowItem(modifier: Modifier = Modifier, data: WeatherEntity) {
-    var isExpanded by remember { mutableStateOf(false) }
+fun PictureRowItem(
+        modifier: Modifier = Modifier,
+        data: WeatherEntity,
+        onClick: () -> Unit
+) {
 
     Row(
             modifier =
                     modifier.padding(10.dp)
                             .fillMaxWidth()
                             .background(MaterialTheme.colorScheme.surfaceContainerHighest)
-                            .clickable { isExpanded = !isExpanded }
-                            .animateContentSize()
+                            .clickable { onClick() }
     ) {
 
         // Permission Internet nécessaire
@@ -203,7 +208,7 @@ fun PictureRowItem(modifier: Modifier = Modifier, data: WeatherEntity) {
                     text = data.getResume(),
                     fontSize = 14.sp,
                     color = MaterialTheme.colorScheme.onSurface,
-                    maxLines = if (isExpanded) Int.MAX_VALUE else 1,
+                    maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
                     modifier = Modifier.fillMaxWidth()
             )
