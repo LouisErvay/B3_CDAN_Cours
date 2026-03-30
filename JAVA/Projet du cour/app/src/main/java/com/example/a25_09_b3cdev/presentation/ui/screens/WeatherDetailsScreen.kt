@@ -10,16 +10,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Card
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -34,7 +27,6 @@ import com.example.a25_09_b3cdev.data.remote.DescriptionEntity
 import com.example.a25_09_b3cdev.data.remote.WeatherEntity
 import com.example.a25_09_b3cdev.presentation.viewmodel.MainViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WeatherDetailsScreen(
         modifier: Modifier = Modifier,
@@ -43,45 +35,25 @@ fun WeatherDetailsScreen(
 ) {
     val selected = mainViewModel.selectedWeather.collectAsStateWithLifecycle().value
 
-    Scaffold(
-        modifier = modifier,
-        topBar = {
-            TopAppBar(
-                title = {
-                    Text(
-                        text = selected?.name ?: stringResource(R.string.details_title_fallback),
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                },
-                navigationIcon = {
-                    IconButton(onClick = onBack) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = stringResource(R.string.back)
-                        )
-                    }
-                }
-            )
+    if (selected == null) {
+        Box(
+                modifier =
+                        modifier
+                                .fillMaxSize()
+                                .padding(16.dp),
+                contentAlignment = Alignment.Center
+        ) {
+            Text(stringResource(R.string.details_empty))
         }
-    ) { innerPadding ->
-        if (selected == null) {
-            Box(modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding)
-                .padding(16.dp), contentAlignment = Alignment.Center) {
-                    Text(stringResource(R.string.details_empty))
-                }
-        } else {
-            DetailsContent(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(innerPadding)
-                    .verticalScroll(rememberScrollState()),
+    } else {
+        DetailsContent(
+                modifier =
+                        modifier
+                                .fillMaxSize()
+                                .verticalScroll(rememberScrollState()),
                 weather = selected,
                 onBack = onBack
-            )
-        }
+        )
     }
 }
 
@@ -132,6 +104,14 @@ private fun DetailsContent(
                     ConditionRow(condition = condition)
                 }
             }
+        }
+
+        // Bouton retour additionnel (la TopAppBar globale contient déjà la flèche Retour)
+        androidx.compose.material3.Button(
+                onClick = onBack,
+                modifier = Modifier.fillMaxWidth()
+        ) {
+            Text(stringResource(R.string.back))
         }
     }
 }

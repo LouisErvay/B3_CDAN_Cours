@@ -13,4 +13,5 @@
     <string name="temperature_format">Température : %1$.1f°C</string>
     <string name="wind_format">Vent : %1$.1f m/s</string>
     <string name="conditions_title">Conditions</string>
+    <string name="main_title">Recherche</string>
 </resources>
