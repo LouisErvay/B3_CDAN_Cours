@@ -1,0 +1,18 @@
+name: b3-cours
+
+services:
+  nosql-mongo-test:
+    image: mongo:7
+    container_name: nosql-mongo-test
+    ports:
+      - "27017:27017"
+    volumes:
+      - nosql-mongo-test-data:/data/db
+    environment:
+      # Auth active uniquement si des identifiants root sont fournis.
+      # Ici on reste sur une configuration simple pour TP.
+      MONGO_INITDB_DATABASE: test
+    restart: unless-stopped
+
+volumes:
+  nosql-mongo-test-data:

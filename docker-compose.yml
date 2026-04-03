@@ -1,0 +1,12 @@
+name: b3-cours
+
+services:
+  # Service "dummy" pour que le fichier soit valide sans lancer de container
+  # par defaut. Lancez-le seulement avec le profil "manual".
+  placeholder:
+    image: alpine:3.20
+    command: ["sh", "-c", "sleep infinity"]
+    profiles: ["manual"]
+
+# Pour demarrer des services definis dans d'autres fichiers Compose:
+# docker compose -f docker-compose.yml -f NoSql/docker-compose.mongo-test.yml up -d
