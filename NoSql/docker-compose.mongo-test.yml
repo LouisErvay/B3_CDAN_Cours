@@ -9,8 +9,6 @@ services:
     volumes:
       - nosql-mongo-test-data:/data/db
     environment:
-      # Auth active uniquement si des identifiants root sont fournis.
-      # Ici on reste sur une configuration simple pour TP.
       MONGO_INITDB_DATABASE: test
     restart: unless-stopped
 
